@@ -1,119 +1,264 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualização dos Formulários</title>
+    <title>Formulários Registrados</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { text-align: center; }
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
-        .controls input, .controls select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; cursor: pointer; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        #loading-message { text-align: center; font-style: italic; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .controls input, .controls select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .controls input {
+            flex-grow: 1;
+        }
+        .form-list {
+            display: grid;
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .form-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .form-item:hover {
+            background-color: #e9e9e9;
+        }
+        .form-item h3 {
+            margin: 0 0 10px;
+            color: #0056b3;
+            font-size: 1.2em;
+        }
+        .form-item p {
+            margin: 0 0 5px;
+            color: #666;
+        }
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+        .form-details {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: none;
+        }
+        .form-details h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        .detail-item strong {
+            color: #333;
+            display: inline-block;
+            width: 150px; /* Garante que os rótulos fiquem alinhados */
+        }
+        .detail-item span {
+            color: #666;
+        }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Formulários Registrados</h1>
 
-    <h1>Formulários Registrados</h1>
+        <div class="controls">
+            <input type="text" id="search-input" placeholder="Buscar por nome da vítima, agressor, etc...">
+            <select id="sort-select">
+                <option value="">Ordenar por...</option>
+                <option value="data_desc">Data (Mais Recente)</option>
+                <option value="data_asc">Data (Mais Antiga)</option>
+                <option value="nome_vitima_asc">Nome da Vítima (A-Z)</option>
+                <option value="nome_vitima_desc">Nome da Vítima (Z-A)</option>
+            </select>
+        </div>
 
-    <div class="controls">
-        <input type="text" id="search-input" placeholder="Buscar por vítima, agressor, ID, ou delegacia...">
-        <select id="sort-select">
-            <option value="">Ordenar por...</option>
-            <option value="data_desc">Data (Mais Recente)</option>
-            <option value="data_asc">Data (Mais Antiga)</option>
-            <option value="vitima_asc">Vítima (A-Z)</option>
-            <option value="delegacia_asc">Delegacia (A-Z)</option>
-            <option value="agressor_asc">Agressor (A-Z)</option>
-        </select>
+        <div id="forms-list" class="form-list">
+            </div>
+
+        <div id="form-details" class="form-details">
+            <h2>Detalhes do Formulário</h2>
+            <div id="details-content">
+                </div>
+            <button class="back-button" onclick="showFormList()">Voltar para a lista</button>
+        </div>
+
+        <p id="error-message" class="error-message" style="display: none;">Erro ao carregar os formulários.</p>
     </div>
-    
-    <p id="loading-message">Carregando formulários...</p>
-
-    <table id="forms-table" style="display: none;">
-        <thead>
-            <tr>
-                <th data-sort-key="id">ID</th>
-                <th data-sort-key="delegacia_asc">Delegacia</th>
-                <th data-sort-key="vitima_asc">Vítima</th>
-                <th data-sort-key="agressor_asc">Agressor</th>
-                <th data-sort-key="data_desc">Data de Registro</th>
-            </tr>
-        </thead>
-        <tbody>
-            </tbody>
-    </table>
 
     <script>
-        const tableBody = document.querySelector('#forms-table tbody');
-        const table = document.getElementById('forms-table');
-        const loadingMessage = document.getElementById('loading-message');
+        const formsList = document.getElementById('forms-list');
         const searchInput = document.getElementById('search-input');
         const sortSelect = document.getElementById('sort-select');
+        const errorMessage = document.getElementById('error-message');
 
-        const loadForms = (sortParam = '', searchParam = '') => {
-            loadingMessage.textContent = 'Carregando formulários...';
-            loadingMessage.style.display = 'block';
-            table.style.display = 'none';
-            tableBody.innerHTML = '';
+        const formDetailsSection = document.getElementById('form-details');
+        const detailsContent = document.getElementById('details-content');
 
-            let url = '/formularios-registrados';
+        let allForms = [];
+
+        async function fetchForms() {
+            let url = `/formularios-registrados`;
+            const searchValue = searchInput.value;
+            const sortValue = sortSelect.value;
+            
             const params = new URLSearchParams();
-            if (sortParam) params.append('sort', sortParam);
-            if (searchParam) params.append('search', searchParam);
+            if (searchValue) {
+                params.append('search', searchValue);
+            }
+            if (sortValue) {
+                params.append('sort', sortValue);
+            }
             
             if (params.toString()) {
                 url += `?${params.toString()}`;
             }
 
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro ao carregar os dados.');
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar os dados.');
+                }
+                allForms = await response.json();
+                renderForms();
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error("Erro ao carregar os formulários:", error);
+                errorMessage.style.display = 'block';
+                formsList.innerHTML = '';
+            }
+        }
+
+        function renderForms() {
+            formsList.innerHTML = '';
+            if (allForms.length === 0) {
+                formsList.innerHTML = '<p style="text-align: center;">Nenhum formulário encontrado.</p>';
+                return;
+            }
+
+            allForms.forEach(form => {
+                const formItem = document.createElement('div');
+                formItem.className = 'form-item';
+                formItem.dataset.id = form.id;
+                formItem.innerHTML = `
+                    <h3>Formulário ID: ${form.id}</h3>
+                    <p><strong>Vítima:</strong> ${form.nome_vitima || 'N/A'}</p>
+                    <p><strong>Agressor:</strong> ${form.nome_agressor || 'N/A'}</p>
+                    <p><strong>Data:</strong> ${new Date(form.timestamp).toLocaleDateString()}</p>
+                `;
+                formItem.addEventListener('click', () => showFormDetails(form.id));
+                formsList.appendChild(formItem);
+            });
+        }
+
+        async function showFormDetails(id) {
+            formsList.style.display = 'none';
+            formDetailsSection.style.display = 'block';
+            detailsContent.innerHTML = '<p style="text-align:center;">Carregando...</p>';
+
+            try {
+                const response = await fetch(`/formularios/${id}`);
+                if (!response.ok) {
+                    throw new Error('Formulário não encontrado.');
+                }
+                const form = await response.json();
+                
+                // Limpa o conteúdo anterior
+                detailsContent.innerHTML = '';
+
+                // Itera sobre todas as chaves do objeto JSON para exibir os dados
+                Object.keys(form).forEach(key => {
+                    const detailItem = document.createElement('div');
+                    detailItem.className = 'detail-item';
+                    
+                    const label = document.createElement('strong');
+                    // Formata a chave para uma leitura mais amigável
+                    label.textContent = `${key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}:`;
+                    
+                    const value = document.createElement('span');
+                    let formValue = form[key];
+                    
+                    // Converte o timestamp para uma data e hora legível
+                    if (key === 'timestamp') {
+                        formValue = new Date(form[key]).toLocaleString();
+                    } else if (formValue === null || formValue === undefined || formValue === '') {
+                        formValue = 'N/A';
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    loadingMessage.style.display = 'none';
-                    table.style.display = 'table';
-
-                    if (data.length === 0) {
-                        loadingMessage.textContent = 'Nenhum formulário encontrado.';
-                        loadingMessage.style.display = 'block';
-                        table.style.display = 'none';
-                        return;
-                    }
-
-                    data.forEach(form => {
-                        const row = tableBody.insertRow();
-                        const date = new Date(form.timestamp);
-                        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
-
-                        row.innerHTML = `
-                            <td>${form.id}</td>
-                            <td>${form.delegacia || 'N/A'}</td>
-                            <td>${form.nome_vitima || 'N/A'}</td>
-                            <td>${form.nome_agressor || 'N/A'}</td>
-                            <td>${formattedDate}</td>
-                        `;
-                    });
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    loadingMessage.textContent = 'Erro ao carregar os formulários.';
-                    loadingMessage.style.display = 'block';
+                    
+                    value.textContent = formValue;
+                    
+                    detailItem.appendChild(label);
+                    detailItem.appendChild(value);
+                    detailsContent.appendChild(detailItem);
                 });
-        };
+            } catch (error) {
+                detailsContent.innerHTML = `<p style="color:red; text-align:center;">${error.message}</p>`;
+            }
+        }
+        
+        function showFormList() {
+            formsList.style.display = 'grid';
+            formDetailsSection.style.display = 'none';
+        }
 
-        searchInput.addEventListener('input', () => loadForms(sortSelect.value, searchInput.value));
-        sortSelect.addEventListener('change', () => loadForms(sortSelect.value, searchInput.value));
-
-        loadForms();
+        // Adiciona os eventos
+        searchInput.addEventListener('input', fetchForms);
+        sortSelect.addEventListener('change', fetchForms);
+        
+        // Carrega os dados na primeira vez que a página é acessada
+        fetchForms();
     </script>
-
 </body>
 </html>

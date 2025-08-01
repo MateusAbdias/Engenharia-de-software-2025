@@ -3,13 +3,14 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 
-module.exports = (appRoot) => {
+module.exports = (projectRoot) => {
     
     // Rota para salvar um novo formulário (POST)
     router.post('/salvar-formulario', (req, res) => {
         const formData = req.body;
-        const filePath = path.join(appRoot, 'service', 'data', 'formularios.json');
+        const filePath = path.join(projectRoot, 'service', 'data', 'formularios.json');
 
+        // Adiciona um ID único e um timestamp
         const newForm = {
             ...formData,
             id: `FORM-${Date.now()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
@@ -20,7 +21,7 @@ module.exports = (appRoot) => {
             let forms = [];
             if (err) {
                 if (err.code === 'ENOENT') {
-    
+                    // Se o arquivo não existe, começa com um array vazio
                     forms = [];
                 } else {
                     console.error("Erro ao ler o arquivo formularios.json:", err);
@@ -49,12 +50,12 @@ module.exports = (appRoot) => {
 
     // Rota para obter a lista de formulários registrados (GET)
     router.get('/formularios-registrados', (req, res) => {
-        const filePath = path.join(appRoot, 'service', 'data', 'formularios.json');
+        const filePath = path.join(projectRoot, 'service', 'data', 'formularios.json');
 
         fs.readFile(filePath, 'utf8', (err, data) => {
             if (err) {
                 if (err.code === 'ENOENT') {
-    
+                    // Se o arquivo não existe, retorna um array vazio
                     return res.status(200).json([]);
                 }
                 console.error("Erro ao ler o arquivo formularios.json:", err);
@@ -81,7 +82,7 @@ module.exports = (appRoot) => {
                 );
             }
 
-            // Lógica de ordenação de vizuaização
+            // Lógica de ordenação
             const sort = req.query.sort;
             if (sort) {
                 forms.sort((a, b) => {
@@ -105,6 +106,35 @@ module.exports = (appRoot) => {
             }
             
             res.status(200).json(forms);
+        });
+    });
+
+    // NOVA ROTA para buscar um formulário por ID
+    router.get('/formularios/:id', (req, res) => {
+        const formId = req.params.id;
+        const filePath = path.join(projectRoot, 'service', 'data', 'formularios.json');
+
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error("Erro ao ler o arquivo formularios.json:", err);
+                return res.status(500).json({ error: "Erro ao carregar os dados do formulário." });
+            }
+
+            let forms = [];
+            try {
+                forms = JSON.parse(data);
+            } catch (parseError) {
+                console.error("Erro ao fazer o parse do JSON:", parseError);
+                return res.status(500).json({ error: "Erro: o arquivo de dados está corrompido." });
+            }
+
+            const form = forms.find(f => f.id === formId);
+
+            if (form) {
+                res.status(200).json(form);
+            } else {
+                res.status(404).json({ error: "Formulário não encontrado." });
+            }
         });
     });
 
