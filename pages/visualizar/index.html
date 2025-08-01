@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualização dos Formulários</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        .controls input, .controls select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; cursor: pointer; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        #loading-message { text-align: center; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>Formulários Registrados</h1>
+
+    <div class="controls">
+        <input type="text" id="search-input" placeholder="Buscar por vítima, agressor, ID, ou delegacia...">
+        <select id="sort-select">
+            <option value="">Ordenar por...</option>
+            <option value="data_desc">Data (Mais Recente)</option>
+            <option value="data_asc">Data (Mais Antiga)</option>
+            <option value="vitima_asc">Vítima (A-Z)</option>
+            <option value="delegacia_asc">Delegacia (A-Z)</option>
+            <option value="agressor_asc">Agressor (A-Z)</option>
+        </select>
+    </div>
+    
+    <p id="loading-message">Carregando formulários...</p>
+
+    <table id="forms-table" style="display: none;">
+        <thead>
+            <tr>
+                <th data-sort-key="id">ID</th>
+                <th data-sort-key="delegacia_asc">Delegacia</th>
+                <th data-sort-key="vitima_asc">Vítima</th>
+                <th data-sort-key="agressor_asc">Agressor</th>
+                <th data-sort-key="data_desc">Data de Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+
+    <script>
+        const tableBody = document.querySelector('#forms-table tbody');
+        const table = document.getElementById('forms-table');
+        const loadingMessage = document.getElementById('loading-message');
+        const searchInput = document.getElementById('search-input');
+        const sortSelect = document.getElementById('sort-select');
+
+        const loadForms = (sortParam = '', searchParam = '') => {
+            loadingMessage.textContent = 'Carregando formulários...';
+            loadingMessage.style.display = 'block';
+            table.style.display = 'none';
+            tableBody.innerHTML = '';
+
+            let url = '/formularios-registrados';
+            const params = new URLSearchParams();
+            if (sortParam) params.append('sort', sortParam);
+            if (searchParam) params.append('search', searchParam);
+            
+            if (params.toString()) {
+                url += `?${params.toString()}`;
+            }
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar os dados.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    loadingMessage.style.display = 'none';
+                    table.style.display = 'table';
+
+                    if (data.length === 0) {
+                        loadingMessage.textContent = 'Nenhum formulário encontrado.';
+                        loadingMessage.style.display = 'block';
+                        table.style.display = 'none';
+                        return;
+                    }
+
+                    data.forEach(form => {
+                        const row = tableBody.insertRow();
+                        const date = new Date(form.timestamp);
+                        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+
+                        row.innerHTML = `
+                            <td>${form.id}</td>
+                            <td>${form.delegacia || 'N/A'}</td>
+                            <td>${form.nome_vitima || 'N/A'}</td>
+                            <td>${form.nome_agressor || 'N/A'}</td>
+                            <td>${formattedDate}</td>
+                        `;
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    loadingMessage.textContent = 'Erro ao carregar os formulários.';
+                    loadingMessage.style.display = 'block';
+                });
+        };
+
+        searchInput.addEventListener('input', () => loadForms(sortSelect.value, searchInput.value));
+        sortSelect.addEventListener('change', () => loadForms(sortSelect.value, searchInput.value));
+
+        loadForms();
+    </script>
+
+</body>
+</html>

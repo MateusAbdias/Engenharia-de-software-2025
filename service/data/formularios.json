@@ -1,0 +1,444 @@
+[
+  {
+    "delegacia": "teste ssss",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "ameaca": "nao",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "sexo": "nao",
+    "comportamentos": [
+      "nenhum"
+    ],
+    "ocorrencia": "nao",
+    "ameacas_frequentes": "nao",
+    "abuso_substancias": "nao",
+    "doenca_mental": "nao",
+    "descumpriu_protetiva": "nao",
+    "suicidio": "nao",
+    "situacao_financeira_agressor": "nao",
+    "armas_fogo": "nao",
+    "ameacou_outros": "nao",
+    "separou": "nao",
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "tem_filhos": "nao",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_filhos": "nao",
+    "conflito_filhos": "nao",
+    "presenciaram_violencia": "nao",
+    "violencia_gravidez": "nao",
+    "novo_relacionamento": "nao",
+    "deficiencia_qual": "",
+    "deficiencia_vitima": "nao",
+    "raca": "branca",
+    "local_risco": "nao",
+    "dependencia_financeira": "nao",
+    "abrigamento": "nao",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "resposta_profissional": "sem_ajuda",
+    "id": "KEK612",
+    "timestamp": "2025-08-01T16:55:16.413Z"
+  },
+  {
+    "delegacia": "teste ss",
+    "nome_vitima": "menina",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "menino",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "ameaca": "nao",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "sexo": "nao",
+    "comportamentos": [
+      "nenhum"
+    ],
+    "ocorrencia": "nao",
+    "ameacas_frequentes": "nao",
+    "abuso_substancias": "nao",
+    "doenca_mental": "nao",
+    "descumpriu_protetiva": "nao",
+    "suicidio": "nao",
+    "situacao_financeira_agressor": "nao",
+    "armas_fogo": "nao",
+    "ameacou_outros": "nao",
+    "separou": "nao",
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "tem_filhos": "nao",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_filhos": "nao",
+    "conflito_filhos": "nao",
+    "presenciaram_violencia": "nao",
+    "violencia_gravidez": "nao",
+    "novo_relacionamento": "nao",
+    "deficiencia_qual": "",
+    "deficiencia_vitima": "nao",
+    "raca": "branca",
+    "local_risco": "nao",
+    "dependencia_financeira": "nao",
+    "abrigamento": "nao",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "resposta_profissional": "sem_ajuda",
+    "id": "DBI400",
+    "timestamp": "2025-08-01T17:11:02.671Z"
+  },
+  {
+    "delegacia": "",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "EMA268",
+    "timestamp": "2025-08-01T17:22:04.240Z"
+  },
+  {
+    "delegacia": "riss",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "abrigamento": "sim",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "RIU850",
+    "timestamp": "2025-08-01T17:23:18.589Z"
+  },
+  {
+    "delegacia": "riss",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "abrigamento": "sim",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "LOJ936",
+    "timestamp": "2025-08-01T19:28:38.192Z"
+  },
+  {
+    "delegacia": "riss",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "abrigamento": "sim",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "HEI580",
+    "timestamp": "2025-08-01T19:44:11.025Z"
+  },
+  {
+    "delegacia": "testedddd",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "KGH257",
+    "timestamp": "2025-08-01T19:44:35.098Z"
+  },
+  {
+    "delegacia": "",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "YPT573",
+    "timestamp": "2025-08-01T19:45:53.184Z"
+  },
+  {
+    "delegacia": "",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "BNX732",
+    "timestamp": "2025-08-01T19:47:38.734Z"
+  },
+  {
+    "delegacia": "",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "LBC370",
+    "timestamp": "2025-08-01T19:47:49.051Z"
+  },
+  {
+    "delegacia": "",
+    "nome_vitima": "",
+    "idade_vitima": "",
+    "escolaridade_vitima": "",
+    "nacionalidade_vitima": "",
+    "nome_agressor": "",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "agressao_fisica": [
+      "nenhuma"
+    ],
+    "outras_agressoes": [
+      "nenhuma"
+    ],
+    "comportamentos": [
+      "nenhum"
+    ],
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_qual": "",
+    "nome_declaracao": "",
+    "assinatura": "",
+    "id": "DDB504",
+    "timestamp": "2025-08-01T19:49:37.377Z"
+  },
+  {
+    "delegacia": "teste boc",
+    "nome_vitima": "teste boc",
+    "idade_vitima": "teste boc",
+    "escolaridade_vitima": "teste boc",
+    "nacionalidade_vitima": "teste boc",
+    "nome_agressor": "teste boc",
+    "idade_agressor": "",
+    "escolaridade_agressor": "",
+    "nacionalidade_agressor": "",
+    "vinculo": "",
+    "data": "",
+    "ameaca": "arma_fogo",
+    "agressao_fisica[]": [
+      "queimadura",
+      "enforcamento",
+      "sufocamento",
+      "nenhuma"
+    ],
+    "outras_agressoes[]": [
+      "nenhuma"
+    ],
+    "sexo": "nao",
+    "comportamentos[]": [
+      "nenhum"
+    ],
+    "ocorrencia": "sim",
+    "ameacas_frequentes": "sim",
+    "abuso_substancias": "alcool",
+    "doenca_mental": "sim_medicacao",
+    "descumpriu_protetiva": "sim",
+    "suicidio": "sim",
+    "situacao_financeira_agressor": "sim",
+    "armas_fogo": "sim",
+    "ameacou_outros": "sim",
+    "ameacou_outros_especificacao[]": [
+      "filhos",
+      "outros_familiares"
+    ],
+    "separou": "sim",
+    "quantos_filhos_com": "",
+    "quantos_filhos_sem": "",
+    "tem_filhos": "nao",
+    "quantos_filhos_deficiencia": "",
+    "deficiencia_filhos": "nao",
+    "conflito_filhos": "nao_tenho_filhos",
+    "presenciaram_violencia": "nao",
+    "violencia_gravidez": "sim",
+    "novo_relacionamento": "sim",
+    "deficiencia_qual": "",
+    "deficiencia_vitima": "nao",
+    "raca": "branca",
+    "local_risco": "sim",
+    "dependencia_financeira": "sim",
+    "abrigamento": "sim",
+    "nome_declaracao": "sim",
+    "assinatura": "mateus",
+    "resposta_profissional": "com_ajuda",
+    "id": "WUM811",
+    "timestamp": "2025-08-01T19:54:28.914Z"
+  }
+]
