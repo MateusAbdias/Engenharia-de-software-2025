@@ -50,7 +50,8 @@
             border-radius: 4px;
         }
 
-        button {
+        /* Estilo para os botões do formulário */
+        .login-form-button { /* NOVO NOME DE CLASSE */
             width: 100%;
             padding: 10px;
             background-color: #bb18f7;
@@ -62,7 +63,7 @@
             margin-bottom: 10px;
         }
 
-        button:hover {
+        .login-form-button:hover { /* NOVO NOME DE CLASSE */
             background-color: #a415e0;
         }
         
@@ -100,6 +101,16 @@
             border: 1px solid #f5c6cb;
             display: block;
         }
+
+        /* Estilo para o novo botão Voltar para Home */
+        .back-to-home-button {
+            background-color: #6c757d; /* Cor cinza, por exemplo */
+            margin-top: 10px; /* Adiciona um espaço acima dele */
+        }
+
+        .back-to-home-button:hover {
+            background-color: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -114,9 +125,10 @@
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Entrar</button>
+            <button type="submit" class="login-form-button">Entrar</button>
             <a href="#" class="forgot-password">Esqueci a senha</a>
         </form>
+        <button class="login-form-button back-to-home-button" onclick="window.location.href='/home'">Voltar para Home</button>
     </div>
 
     <div id="message"></div>
@@ -146,7 +158,7 @@
         }
 
         loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Impede o envio padrão do formulário
+            event.preventDefault();
             const username = loginForm.elements.username.value;
             const password = loginForm.elements.password.value;
 
@@ -156,7 +168,6 @@
 
                 localStorage.setItem('authToken', JSON.stringify(result.user));
                 
-                // Redireciona para o dashboard, passando o token via query parameter
                 const token = JSON.stringify(result.user); 
                 window.location.href = `/dashboard?token=${encodeURIComponent(token)}`; 
 
