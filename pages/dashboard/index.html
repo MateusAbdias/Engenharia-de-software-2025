@@ -58,7 +58,6 @@
         .logout-button:hover {
             background-color: #c82333;
         }
-        /* Estilo para o botão de admin (opcional) */
         .admin-button {
             background-color: #28a745 !important; /* Verde */
         }
@@ -82,18 +81,30 @@
     </div>
 
 <script>
-    // ... (código existente, getAuthToken, logout, etc.) ...
+    // --- FUNÇÕES DE LOGOUT E TOKEN NO TOPO DO SCRIPT PARA GARANTIR O ESCOPO ---
+    function getAuthToken() {
+        return localStorage.getItem('authToken');
+    }
 
+    function logout() {
+        console.log("Realizando logout..."); // Log para depuração
+        localStorage.removeItem('authToken');
+        window.location.href = '/login'; // Redireciona para a tela de login
+    }
+
+    // --- CÓDIGO DE INICIALIZAÇÃO DA PÁGINA ---
     window.onload = () => {
-        const token = getAuthToken(); // Isso é o JSON stringificado do usuário
+        const token = getAuthToken();
         if (!token) {
+            console.log("Token não encontrado no onload, redirecionando para login.");
             window.location.href = '/login';
             return;
         }
 
         try {
             const user = JSON.parse(token);
-            // ... (exibir usernameDisplay, userRoleDisplay) ...
+            document.getElementById('usernameDisplay').textContent = user.username;
+            document.getElementById('userRoleDisplay').textContent = user.role;
 
             if (user.role === 'admin') {
                 const adminButtonPlaceholder = document.getElementById('admin-button-placeholder');
@@ -101,23 +112,20 @@
                 adminButton.textContent = 'Cadastrar Funcionário';
                 adminButton.className = 'btn-header admin-button';
                 
-                // --- MODIFICADO AQUI: PASSANDO O TOKEN NA URL ---
                 adminButton.onclick = () => {
-                    const currentToken = getAuthToken(); // Pega o token novamente para garantir
+                    const currentToken = getAuthToken();
                     if (currentToken) {
                         window.location.href = `/admin/users?token=${encodeURIComponent(currentToken)}`;
                     } else {
-                        logout(); // Se por algum motivo o token sumiu, desloga
+                        logout();
                     }
                 };
-                // --- FIM DA MODIFICAÇÃO ---
-
                 adminButtonPlaceholder.appendChild(adminButton);
             }
 
         } catch (e) {
-            console.error("Erro ao parsear token de usuário:", e);
-            logout();
+            console.error("Erro ao parsear token de usuário no onload:", e); // Log mais específico
+            logout(); // Token inválido, força logout
         }
     };
 </script>

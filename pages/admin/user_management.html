@@ -79,9 +79,25 @@
             border: 1px solid #f5c6cb;
             display: block;
         }
+        .nav-button-group { /* NOVO ESTILO */
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .nav-button-group button {
+            width: auto; /* Permite que o botão se ajuste ao conteúdo */
+            flex-grow: 1; /* Distribui o espaço entre os botões */
+            padding: 10px 15px;
+        }
+        .back-to-dashboard-btn { /* NOVO ESTILO */
+            background-color: #007bff; /* Azul para voltar */
+        }
+        .back-to-dashboard-btn:hover {
+            background-color: #0056b3;
+        }
         .logout-btn {
             background-color: #dc3545; /* Vermelho para sair */
-            margin-top: 20px;
         }
         .logout-btn:hover {
             background-color: #c82333;
@@ -109,29 +125,83 @@
             </div>
             <button type="submit">Criar Usuário</button>
         </form>
-        <button class="logout-btn" onclick="window.location.href='/login'">Voltar ao Login</button>
+        <div class="nav-button-group">
+            <button class="back-to-dashboard-btn" onclick="redirectToDashboard()">Voltar para Dashboard</button>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
     </div>
 
     <div id="message"></div>
 
     <script>
+        // --- FUNÇÕES UTILITÁRIAS ---
+        function getAuthToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        function logout() {
+            console.log("Realizando logout do gerenciamento de usuários...");
+            localStorage.removeItem('authToken');
+            window.location.href = '/login'; // Redireciona para a tela de login
+        }
+
+        // NOVO: Função para redirecionar para o dashboard com o token
+        function redirectToDashboard() {
+            const token = getAuthToken();
+            if (token) {
+                window.location.href = `/dashboard?token=${encodeURIComponent(token)}`;
+            } else {
+                logout(); // Se por algum motivo o token sumiu, desloga
+            }
+        }
+
+        // --- CÓDIGO DE INICIALIZAÇÃO DA PÁGINA (verificação de autenticação) ---
+        window.onload = () => {
+            const token = getAuthToken();
+            if (!token) {
+                console.log("Token não encontrado no onload do admin, redirecionando para login.");
+                window.location.href = '/login'; // Redireciona se não houver token
+                return;
+            }
+            // Opcional: Você pode querer fazer uma checagem de role aqui para ter certeza que é admin
+            // try {
+            //     const user = JSON.parse(token);
+            //     if (user.role !== 'admin') {
+            //         alert("Acesso restrito a administradores!");
+            //         window.location.href = '/dashboard'; // Redireciona se não for admin
+            //     }
+            // } catch (e) {
+            //     console.error("Token inválido no onload do admin:", e);
+            //     logout();
+            // }
+        };
+
+        // --- LÓGICA DO FORMULÁRIO DE CRIAÇÃO DE USUÁRIOS ---
         const createUserForm = document.getElementById('createUserForm');
         const messageDiv = document.getElementById('message');
 
         async function postData(url, data) {
+            const token = getAuthToken(); // Obtém o token para enviar na requisição
+            if (!token) {
+                logout(); // Desloga se não houver token
+                throw new Error("Token de autenticação ausente. Por favor, faça login novamente.");
+            }
+
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // ### ATENÇÃO: PARA TESTE INICIAL DO BACKEND ###
-                    // Este cabeçalho é APENAS para simular a autenticação de admin.
-                    // Em produção, você usaria um JWT do localStorage/cookies ou session cookies.
-                    'x-admin-auth': 'admin_key_123' 
+                    // AGORA: Envie o token via Authorization header para a API
+                    'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify(data)
             });
             if (!response.ok) {
                 const errorData = await response.json();
+                // Se a API retornar 401/403, pode ser uma sessão expirada/token inválido
+                if (response.status === 401 || response.status === 403) {
+                    logout(); // Força logout
+                }
                 throw new Error(errorData.message || 'Erro desconhecido');
             }
             return response.json();
@@ -149,6 +219,7 @@
             const role = createUserForm.elements.newRole.value;
 
             try {
+                // A URL da API para criar usuário é '/api/admin/create-user'
                 const result = await postData('/api/admin/create-user', { username, password, role });
                 showMessage(result.message, 'success');
                 createUserForm.reset();
