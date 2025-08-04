@@ -1,8 +1,20 @@
 [
-{
-  "id": 2,
-  "username": "alison",
-  "password": "$2b$10$IWkEVu2uVcIOB25VVhnrXOAIt3KJZVslycLsuSP3OcfOmzM4EDbaK",
-  "role": "admin"
-}
+  {
+    "id": 2,
+    "username": "alison",
+    "password": "$2b$10$IWkEVu2uVcIOB25VVhnrXOAIt3KJZVslycLsuSP3OcfOmzM4EDbaK",
+    "role": "admin"
+  },
+  {
+    "id": 3,
+    "username": "admin",
+    "password": "$2b$10$CWZcYL0.6dkPVs7aj5XJje0f6RVT9ev/6nI8aMIFGG8JBaAdG1uqm",
+    "role": "admin"
+  },
+  {
+    "id": 4,
+    "username": "mateus",
+    "password": "$2b$10$ytXNqs.b.M5Vlgcpvr2y9eoDuDlgljqB6J4B/CDhk8dxoG/viVEjC",
+    "role": "user"
+  }
 ]
