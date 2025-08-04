@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"> 
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulários Registrados</title>
+    <script>
+        function getAuthToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login'; // Redireciona para a tela de login
+        }
+
+        window.onload = () => {
+            const token = getAuthToken();
+            if (!token) {
+                console.log("Token não encontrado, redirecionando para login.");
+                window.location.href = '/login';
+                return; 
+            }
+            // --- NOVO: CHAMA fetchForms() APÓS VERIFICAÇÃO BEM-SUCEDIDA ---
+            fetchForms(); 
+            // --- FIM DO NOVO ---
+        };
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -108,6 +130,22 @@
             border: none;
             cursor: pointer;
         }
+        .nav-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav-buttons button {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .nav-buttons button.logout-button {
+            background-color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -138,6 +176,11 @@
         <p id="error-message" class="error-message" style="display: none;">Erro ao carregar os formulários.</p>
     </div>
 
+    <div class="nav-buttons">
+        <button onclick="redirectToDashboard()">Ir para Dashboard</button>
+        <button class="logout-button" onclick="logout()">Sair</button>
+    </div>
+
     <script>
         const formsList = document.getElementById('forms-list');
         const searchInput = document.getElementById('search-input');
@@ -149,7 +192,23 @@
 
         let allForms = [];
 
+        // Função auxiliar para redirecionar com token
+        function redirectToDashboard() {
+            const token = getAuthToken();
+            if (token) {
+                window.location.href = `/dashboard?token=${encodeURIComponent(token)}`;
+            } else {
+                logout(); // Se não há token, desloga
+            }
+        }
+
         async function fetchForms() {
+            const token = getAuthToken(); 
+            if (!token) { 
+                logout(); 
+                return;
+            }
+
             let url = `/formularios-registrados`;
             const searchValue = searchInput.value;
             const sortValue = sortSelect.value;
@@ -167,8 +226,16 @@
             }
 
             try {
-                const response = await fetch(url);
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}` 
+                    }
+                });
                 if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        logout(); 
+                        return; 
+                    }
                     throw new Error('Erro ao carregar os dados.');
                 }
                 allForms = await response.json();
@@ -204,33 +271,43 @@
         }
 
         async function showFormDetails(id) {
+            const token = getAuthToken(); 
+            if (!token) { 
+                logout();
+                return;
+            }
+
             formsList.style.display = 'none';
             formDetailsSection.style.display = 'block';
             detailsContent.innerHTML = '<p style="text-align:center;">Carregando...</p>';
 
             try {
-                const response = await fetch(`/formularios/${id}`);
+                const response = await fetch(`/formularios/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        logout();
+                        return;
+                    }
                     throw new Error('Formulário não encontrado.');
                 }
                 const form = await response.json();
                 
-                // Limpa o conteúdo anterior
                 detailsContent.innerHTML = '';
 
-                // Itera sobre todas as chaves do objeto JSON para exibir os dados
                 Object.keys(form).forEach(key => {
                     const detailItem = document.createElement('div');
                     detailItem.className = 'detail-item';
                     
                     const label = document.createElement('strong');
-                    // Formata a chave para uma leitura mais amigável
                     label.textContent = `${key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}:`;
                     
                     const value = document.createElement('span');
                     let formValue = form[key];
                     
-                    // Converte o timestamp para uma data e hora legível
                     if (key === 'timestamp') {
                         formValue = new Date(form[key]).toLocaleString();
                     } else if (formValue === null || formValue === undefined || formValue === '') {
@@ -257,8 +334,6 @@
         searchInput.addEventListener('input', fetchForms);
         sortSelect.addEventListener('change', fetchForms);
         
-        // Carrega os dados na primeira vez que a página é acessada
-        fetchForms();
     </script>
 </body>
 </html>

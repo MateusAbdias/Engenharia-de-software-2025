@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff; /* Um azul claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            color: #333;
+        }
+        .dashboard-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        .user-info {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .dashboard-nav button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+        .dashboard-nav button:hover {
+            background-color: #0056b3;
+        }
+        .logout-button {
+            background-color: #dc3545; /* Vermelho para sair */
+            margin-top: 30px;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+        /* Estilo para o botão de admin (opcional) */
+        .admin-button {
+            background-color: #28a745 !important; /* Verde */
+        }
+        .admin-button:hover {
+            background-color: #218838 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Bem-vindo ao seu Dashboard, <span id="usernameDisplay">Usuário</span>!</h1>
+        <p>Esta é a sua área restrita. Você está logado com a função: <span id="userRoleDisplay"></span></p>
+
+        <div class="dashboard-nav">
+            <button onclick="window.location.href='/formulario'">Ir para Formulário</button>
+            <button onclick="window.location.href='/visualizar'">Ver Registros</button>
+            <div id="admin-button-placeholder"></div>
+        </div>
+
+        <button class="logout-button" onclick="logout()">Sair</button>
+    </div>
+
+<script>
+    // ... (código existente, getAuthToken, logout, etc.) ...
+
+    window.onload = () => {
+        const token = getAuthToken(); // Isso é o JSON stringificado do usuário
+        if (!token) {
+            window.location.href = '/login';
+            return;
+        }
+
+        try {
+            const user = JSON.parse(token);
+            // ... (exibir usernameDisplay, userRoleDisplay) ...
+
+            if (user.role === 'admin') {
+                const adminButtonPlaceholder = document.getElementById('admin-button-placeholder');
+                const adminButton = document.createElement('button');
+                adminButton.textContent = 'Cadastrar Funcionário';
+                adminButton.className = 'btn-header admin-button';
+                
+                // --- MODIFICADO AQUI: PASSANDO O TOKEN NA URL ---
+                adminButton.onclick = () => {
+                    const currentToken = getAuthToken(); // Pega o token novamente para garantir
+                    if (currentToken) {
+                        window.location.href = `/admin/users?token=${encodeURIComponent(currentToken)}`;
+                    } else {
+                        logout(); // Se por algum motivo o token sumiu, desloga
+                    }
+                };
+                // --- FIM DA MODIFICAÇÃO ---
+
+                adminButtonPlaceholder.appendChild(adminButton);
+            }
+
+        } catch (e) {
+            console.error("Erro ao parsear token de usuário:", e);
+            logout();
+        }
+    };
+</script>
+</body>
+</html>

@@ -10,6 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
-  }
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MateusAbdias/Engenharia-de-software-2025.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MateusAbdias/Engenharia-de-software-2025/issues"
+  },
+  "homepage": "https://github.com/MateusAbdias/Engenharia-de-software-2025#readme"
 }
