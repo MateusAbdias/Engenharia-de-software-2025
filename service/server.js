@@ -26,10 +26,10 @@ app.use(authRoutes);
 
 // --- Rotas para as páginas HTML específicas (URLs amigáveis) ---
 
-// Rota principal (raiz do site)
+// AJUSTADO: Rota principal (raiz do site) agora serve /home
 app.get('/', (req, res) => {
-    const filePath = path.join(projectRoot, 'pages', 'formulario', 'preencher.html');
-    console.log(`DEBUG: Tentando servir / de: ${filePath}`);
+    const filePath = path.join(projectRoot, 'pages', 'inicial', 'home.html'); // ALTERADO AQUI
+    console.log(`DEBUG: Tentando servir / (raiz) de: ${filePath}`);
     res.sendFile(filePath);
 });
 
@@ -54,7 +54,7 @@ app.get(/^\/visualizar\/?$/, (req, res) => { // Removido isAuthenticated daqui.
     res.sendFile(filePath);
 });
 
-// Rota amigável para a página HOME
+// Rota amigável para a página HOME (Esta já existia e servia home.html)
 app.get(/^\/home\/?$/, (req, res) => {
     const filePath = path.join(projectRoot, 'pages', 'inicial', 'home.html');
     console.log(`DEBUG: Tentando servir /home de: ${filePath}`);
@@ -83,9 +83,9 @@ app.use(express.static(path.join(projectRoot, 'pages')));
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
     console.log(`Páginas disponíveis:`);
-    console.log(`- Raiz (Formulário): http://localhost:${PORT}/`);
+    console.log(`- Raiz (Home): http://localhost:${PORT}/`); // ALTERADO NA MENSAGEM
     console.log(`- Formulário: http://localhost:${PORT}/formulario`);
-    console.log(`- Visualizar (Protegida no Frontend): http://localhost:${PORT}/visualizar`); // Adicionado nota
+    console.log(`- Visualizar (Protegida no Frontend): http://localhost:${PORT}/visualizar`);
     console.log(`- Login: http://localhost:${PORT}/login`);
     console.log(`- Home: http://localhost:${PORT}/home`);
     console.log(`- Dashboard (PROTEGIDO no Backend): http://localhost:${PORT}/dashboard`);
